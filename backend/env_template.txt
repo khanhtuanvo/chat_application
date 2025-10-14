@@ -1,0 +1,13 @@
+# Database Configuration
+DATABASE_URL=postgresql://postgres:password@localhost:5432/user_management
+
+# Security Configuration
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# Database Settings
+DATABASE_ECHO=False
+
+# CORS Settings (comma-separated)
+CORS_ORIGINS=http://localhost:5173,http://localhost:3000 
