@@ -55,10 +55,15 @@ Backend: Fastapi
 Database: FastAPI
 
 Authentication: JWT
-
+🖼️ UI Previews
+🔑 Login Page
 ![Login Page](./frontend/chat_ui/public/login.png)
+💬 Chat Interface
 ![Chat Interface](./frontend/chat_ui/public/chat_ui.png)
+🏠 Dashboard
 ![Dashboard](./frontend/admin_dashboard_ui/public/dashboard.png)
+👥 User Management
 ![User Management](./frontend/admin_dashboard_ui/public/user_data.png)
+👤 Profile
 ![Profile](./frontend/admin_dashboard_ui/public/profile.png)
 
