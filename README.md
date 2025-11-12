@@ -55,7 +55,9 @@ Backend: Fastapi
 Database: FastAPI
 
 Authentication: JWT
+
 🖼️ UI Previews
+
 🔑 Login Page
 ![Login Page](./frontend/chat_ui/public/login.png)
 💬 Chat Interface
