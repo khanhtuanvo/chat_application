@@ -56,6 +56,9 @@ Database: FastAPI
 
 Authentication: JWT
 
-![Login Page](./assets/login.png)
-![Chat Interface](./assets/chat.png)
+![Login Page](./frontend/chat_ui/public/login.png)
+![Chat Interface](./frontend/chat_ui/public/chat_ui.png)
+![Dashboard](./frontend/admin_dashboard_ui/public/dashboard.png)
+![User Management](./frontend/admin_dashboard_ui/public/user_data.png)
+![Profile](./frontend/admin_dashboard_ui/public/profile.png)
 
