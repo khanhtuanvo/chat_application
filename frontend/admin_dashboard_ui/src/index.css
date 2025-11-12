@@ -1,0 +1,672 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@reference "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    /* overflow: hidden; Remove main page scrollbar */
+  }
+  
+  body {
+    @apply bg-[#23242a] text-gray-100;
+    /* overflow: hidden; Remove main page scrollbar */
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[#23242a];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-600;
+  }
+}
+
+@layer components {
+  .chat-message {
+    @apply p-4 rounded-2xl mb-4 max-w-3xl shadow-sm transition-all duration-200;
+  }
+  
+  .chat-message.user {
+    @apply text-white ml-auto;
+    background-color: #3A3B41 !important;
+  }
+  
+  .chat-message.assistant {
+    @apply border-0 p-0 m-0 rounded-none shadow-none bg-transparent;
+  }
+
+  /* .chat-message:hover {
+    @apply transform scale-[1.02];
+  } */
+  
+  .chat-input {
+    @apply w-full p-4 border border-gray-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-200 bg-[#23242a] text-gray-100 placeholder-gray-400;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .chat-input:focus {
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
+  }
+  
+  .send-button {
+    @apply bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center border border-gray-700;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  }
+
+  .send-button:hover:not(:disabled) {
+    @apply transform scale-105;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2);
+  }
+
+  .send-button:active:not(:disabled) {
+    @apply transform scale-95;
+  }
+
+  /* Sidebar styling */
+  .sidebar-conversation {
+    @apply p-4 border-b border-gray-800 cursor-pointer transition-all duration-200 text-white;
+  }
+
+  .sidebar-conversation.active {
+    @apply bg-[#23242a] border-l-4 border-blue-800 text-white;
+  }
+
+  /* New chat button */
+  .new-chat-button {
+    @apply w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl transition-all duration-200 font-medium flex items-center justify-center gap-2 border border-gray-700;
+  }
+
+  .new-chat-button:hover {
+    @apply transform scale-105;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2);
+  }
+
+  /* Header styling */
+  .chat-header {
+    @apply bg-[#23242a] border-b border-gray-800 p-4 flex items-center justify-between shadow-sm;
+  }
+
+  /* Mobile menu button */
+  .mobile-menu-button {
+    @apply md:hidden p-2 hover:bg-gray-800 rounded-lg transition-all duration-200 text-gray-400;
+  }
+
+  .mobile-menu-button:hover {
+    @apply text-white;
+  }
+
+  /* Loading animation */
+  .typing-indicator {
+    @apply flex space-x-1 p-4;
+  }
+
+  .typing-dot {
+    @apply w-2 h-2 bg-gray-500 rounded-full animate-pulse;
+  }
+
+  .typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  /* Message animations */
+  .message-enter {
+    @apply opacity-0 transform translate-y-4;
+  }
+
+  .message-enter-active {
+    @apply opacity-100 transform translate-y-0 transition-all duration-300;
+  }
+
+  /* Empty state */
+  .empty-state {
+    @apply text-center text-gray-500 mt-8 p-8;
+  }
+
+  .empty-state-icon {
+    @apply w-16 h-16 mx-auto mb-4 text-gray-700;
+  }
+
+  /* Responsive improvements */
+  @media (max-width: 768px) {
+    .chat-message {
+      @apply max-w-full mx-2;
+    }
+  }
+
+  /* Custom scrollbar for react-window */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-thumb-gray-700 {
+    scrollbar-color: #374151 transparent;
+  }
+  
+  .scrollbar-track-transparent {
+    scrollbar-color: transparent transparent;
+  }
+  
+  /* Webkit scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-thumb-gray-700::-webkit-scrollbar-thumb {
+    @apply bg-gray-700 rounded-full;
+  }
+  
+  .scrollbar-track-transparent::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  /* Sidebar scrollbar */
+  .scrollbar-thumb-gray-600::-webkit-scrollbar-thumb {
+    @apply bg-gray-600 rounded-full;
+  }
+  
+  .scrollbar-track-gray-800::-webkit-scrollbar-track {
+    @apply bg-gray-800;
+  }
+  
+  /* Conversation list styling */
+  .conversation-list {
+    @apply space-y-1;
+  }
+  
+  .conversation-list .sidebar-conversation {
+    @apply mx-2 rounded-lg border-0 transition-all duration-200;
+  }
+  
+  .conversation-list .sidebar-conversation:hover {
+    @apply bg-gray-800 transform scale-[1.02];
+  }
+  
+  .conversation-list .sidebar-conversation.active {
+    @apply bg-[#23242a] border-l-4 border-blue-800 shadow-lg;
+  }
+  
+  /* Search highlight */
+  .conversation-list .sidebar-conversation.highlight {
+    @apply bg-blue-900/20 border-l-4 border-blue-600;
+  }
+
+  .sidebar-scrollbar {
+    overflow-y: scroll !important;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+  }
+
+  /* Streaming effect styles for markdown elements - optimized for performance */
+  .streaming-code-block {
+    @apply relative;
+    animation: streaming-glow 3s ease-in-out infinite alternate;
+    will-change: box-shadow;
+  }
+
+  .streaming-inline-code {
+    @apply bg-gray-800 px-1 py-0.5 rounded text-sm;
+    animation: streaming-pulse 2s ease-in-out infinite;
+    will-change: background-color;
+  }
+
+  .streaming-header {
+    @apply relative;
+    animation: streaming-slide-in 0.3s ease-out;
+    will-change: transform, opacity;
+  }
+
+  .streaming-list {
+    @apply relative;
+    animation: streaming-fade-in 0.2s ease-out;
+    will-change: transform, opacity;
+  }
+
+  .streaming-paragraph {
+    @apply relative;
+    animation: streaming-typewriter 0.05s ease-out;
+    will-change: opacity;
+  }
+
+  .streaming-blockquote {
+    @apply relative;
+    animation: streaming-highlight 2s ease-in-out infinite alternate;
+    will-change: border-left-color;
+  }
+
+  /* Streaming animations - optimized for performance */
+  @keyframes streaming-glow {
+    0% {
+      box-shadow: 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    100% {
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+    }
+  }
+
+  @keyframes streaming-pulse {
+    0% {
+      background-color: #374151;
+    }
+    50% {
+      background-color: #4B5563;
+    }
+    100% {
+      background-color: #374151;
+    }
+  }
+
+  @keyframes streaming-slide-in {
+    0% {
+      opacity: 0;
+      transform: translateX(-5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes streaming-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes streaming-typewriter {
+    0% {
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes streaming-highlight {
+    0% {
+      border-left-color: #6B7280;
+    }
+    100% {
+      border-left-color: #3B82F6;
+    }
+  }
+
+  /* Enhanced streaming cursor effect - optimized */
+  .streaming-paragraph:last-child::after {
+    content: '▍';
+    @apply text-blue-400;
+    animation: blink 1.5s infinite;
+    will-change: opacity;
+  }
+
+  /* Typewriter effect for conversation titles */
+  .typewriter-text {
+    @apply text-gray-100;
+    animation: typewriter 0.05s ease-out;
+  }
+
+  @keyframes typewriter {
+    0% {
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes blink {
+    0%, 60% {
+      opacity: 1;
+    }
+    61%, 100% {
+      opacity: 0;
+    }
+  }
+
+  /* Performance optimizations to reduce lag */
+  .messages-container {
+    will-change: scroll-position;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  .sidebar-scrollbar {
+    will-change: scroll-position;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Optimize streaming animations */
+  .streaming-code-block,
+  .streaming-inline-code,
+  .streaming-header,
+  .streaming-list,
+  .streaming-paragraph,
+  .streaming-blockquote {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  /* Reduce repaints during streaming */
+  .chat-message {
+    contain: layout style paint;
+  }
+
+  /* Optimize markdown rendering */
+  .markdown-content {
+    contain: layout style;
+  }
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* Custom scrollbar for specific containers */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Page-level scrollbar styles */
+.page-container {
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.page-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.page-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.page-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.page-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Table container scrollbar */
+.table-container {
+  max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Form styles */
+.form-label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.input-field {
+  @apply appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md transition-colors duration-200;
+}
+
+/* Chat interface styles */
+.chat-header {
+  @apply bg-white border-b border-gray-200 px-6 py-4;
+}
+
+.chat-message {
+  @apply flex space-x-3 p-4;
+}
+
+.chat-message.user {
+  @apply justify-end;
+}
+
+.chat-message.assistant {
+  @apply justify-start;
+}
+
+.chat-message .message-content {
+  @apply max-w-xs lg:max-w-md px-4 py-2 rounded-lg;
+}
+
+.chat-message.user .message-content {
+  @apply bg-blue-600 text-white;
+}
+
+.chat-message.assistant .message-content {
+  @apply bg-gray-200 text-gray-900;
+}
+
+.sidebar-conversation {
+  @apply p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200;
+}
+
+.sidebar-conversation.active {
+  @apply bg-blue-50 border-blue-200;
+}
+
+.new-chat-button {
+  @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors duration-200;
+}
+
+.mobile-menu-button {
+  @apply md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100;
+}
+
+.empty-state {
+  @apply flex flex-col items-center justify-center h-64 text-center;
+}
+
+.typing-indicator {
+  @apply flex space-x-1;
+}
+
+.typing-dot {
+  @apply w-2 h-2 bg-gray-400 rounded-full animate-bounce;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+/* Markdown content styles */
+.markdown-content {
+  @apply max-w-none;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+  @apply text-gray-900 font-semibold;
+}
+
+.markdown-content p {
+  @apply text-gray-700 mb-2;
+}
+
+.markdown-content code {
+  @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono;
+}
+
+.markdown-content pre {
+  @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto;
+}
+
+.markdown-content pre code {
+  @apply bg-transparent p-0 text-sm;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  @apply pl-6 mb-2;
+}
+
+.markdown-content li {
+  @apply text-gray-700 mb-1;
+}
+
+/* Streaming animation styles */
+.streaming-code-block,
+.streaming-inline-code,
+.streaming-header,
+.streaming-list,
+.streaming-paragraph,
+.streaming-blockquote {
+  @apply animate-pulse;
+}
+
+/* Performance optimizations to reduce lag */
+.messages-container {
+  will-change: scroll-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.sidebar-scrollbar {
+  will-change: scroll-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize streaming animations */
+.streaming-code-block,
+.streaming-inline-code,
+.streaming-header,
+.streaming-list,
+.streaming-paragraph,
+.streaming-blockquote {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Reduce repaints during streaming */
+.chat-message {
+  contain: layout style paint;
+}
+
+/* Optimize markdown rendering */
+.markdown-content {
+  contain: layout style;
+}
+
+/* Typewriter effect for conversation titles */
+.typewriter-text {
+  @apply text-gray-100;
+  animation: typewriter 0.05s ease-out;
+}
+
+@keyframes typewriter {
+  0% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+  }
+}
